@@ -1,0 +1,10 @@
+${logs.dir}/
+.classpath
+.metadata/
+.project
+.settings/
+.htaccess
+.tern-project
+target/
+webapps/.gitkeep
+src/main/java/.gitkeep

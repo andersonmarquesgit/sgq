@@ -15,7 +15,6 @@ import org.springframework.stereotype.Controller;
 import br.com.sgq.model.AnaliseCritica;
 import br.com.sgq.model.Conclusao;
 import br.com.sgq.model.ItemAnaliseCritica;
-import br.com.sgq.model.Reclamacao;
 import br.com.sgq.model.Resultado;
 import br.com.sgq.model.SecaoAnaliseCritica;
 import br.com.sgq.service.AnaliseCriticaService;

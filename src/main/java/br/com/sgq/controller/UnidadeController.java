@@ -10,10 +10,7 @@ import org.primefaces.context.RequestContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
-import br.com.sgq.model.Empresa;
 import br.com.sgq.model.Unidade;
-import br.com.sgq.service.EmpresaService;
-import br.com.sgq.service.NivelUsuarioService;
 import br.com.sgq.service.UnidadeService;
 import br.com.sgq.utils.FacesUtil;
 import br.com.sgq.utils.MsgConstantes;

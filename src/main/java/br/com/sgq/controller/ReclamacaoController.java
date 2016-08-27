@@ -26,6 +26,7 @@ import br.com.sgq.service.ReclamacaoService;
 import br.com.sgq.service.StatusReclamacaoService;
 import br.com.sgq.service.TipoReclamacaoService;
 import br.com.sgq.utils.CepUtil;
+import br.com.sgq.utils.Constantes;
 import br.com.sgq.utils.FacesUtil;
 import br.com.sgq.utils.MsgConstantes;
 import br.com.sgq.utils.enums.StatusReclamacaoEnum;
@@ -364,6 +365,22 @@ public class ReclamacaoController {
 
 		return DateUtils.truncatedEquals((Date) filter, (Date) value,
 				Calendar.DATE);
+	}
+	
+	public String getRemediacaoSugerida(){
+		return this.verificarTextoNA(this.reclamacao.getRemediacaoSugerida());
+	}
+	
+	public String getDescricao(){
+		return this.verificarTextoNA(this.reclamacao.getDescricao());
+	}
+	
+	public String verificarTextoNA(String texto) {
+		if(texto == null || texto.isEmpty()) {
+			return Constantes.NA;
+		}
+		
+		return texto;
 	}
 
 	// Gets e Sets

@@ -8,13 +8,14 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 
-import org.primefaces.model.chart.Axis;
-import org.primefaces.model.chart.AxisType;
-import org.primefaces.model.chart.BarChartModel;
-import org.primefaces.model.chart.CategoryAxis;
-import org.primefaces.model.chart.ChartSeries;
-import org.primefaces.model.chart.LineChartModel;
-import org.primefaces.model.chart.PieChartModel;
+import org.chartistjsf.model.chart.AspectRatio;
+import org.chartistjsf.model.chart.Axis;
+import org.chartistjsf.model.chart.AxisType;
+import org.chartistjsf.model.chart.BarChartModel;
+import org.chartistjsf.model.chart.BarChartSeries;
+import org.chartistjsf.model.chart.LineChartModel;
+import org.chartistjsf.model.chart.LineChartSeries;
+import org.chartistjsf.model.chart.PieChartModel;
 import org.springframework.stereotype.Controller;
 
 import br.com.sgq.model.TipoReclamacao;
@@ -36,8 +37,6 @@ public class ChartBean implements Serializable{
 	
 	private List<Integer> listaAnos;
 	private Integer anoSelecionado;
-	private Long maxValueChart = 0L;
-	private Long maxValueLineChart = 0L;
 	
 	@Inject
 	private ReclamacaoService reclamacaoService;
@@ -60,30 +59,23 @@ public class ChartBean implements Serializable{
 	}
 	private void criarLineChartReclamacoes() {
 		lineChartReclamacoes = initLineChartReclamacoes();
-		
-		lineChartReclamacoes.setTitle("Total de reclamações por ano");
-		lineChartReclamacoes.setAnimate(true);
-		lineChartReclamacoes.setShadow(true);
-		lineChartReclamacoes.setShowDatatip(true);
-		lineChartReclamacoes.setShowPointLabels(true);
-
-		Axis xAxis = new CategoryAxis();
-		lineChartReclamacoes.getAxes().put(AxisType.X, xAxis);
-
-		Axis yAxis = lineChartReclamacoes.getAxis(AxisType.Y);
-		yAxis.setMin(0);
-		yAxis.setMax(this.maxValueLineChart>10?this.maxValueLineChart+2:10);
-		yAxis.setTickInterval("1");
+		lineChartReclamacoes.setAspectRatio(AspectRatio.OCTAVE);
+		lineChartReclamacoes.setShowTooltip(true);
+		lineChartReclamacoes.setAnimateAdvanced(true);
 	}
 	
 	private LineChartModel initLineChartReclamacoes() {
 		LineChartModel model = new LineChartModel();
+		LineChartSeries totalReclamacoes = new LineChartSeries();
+		totalReclamacoes.setName("Total");
 		
-		ChartSeries totalReclamacoes = new ChartSeries();
+		for (Integer ano : listaAnos){
+			model.addLabel(ano);
+		}
+		
 		for (Integer ano : listaAnos) {
 			Long valor = reclamacaoService.calculaReclamacoesPorAno(ano);
-			setMaxValueLineChart(valor);
-			totalReclamacoes.set(ano, valor);
+			totalReclamacoes.set(valor);
 		}
 		
 		model.addSeries(totalReclamacoes);
@@ -92,60 +84,56 @@ public class ChartBean implements Serializable{
 
 	public void criarChartReclamacoes() {
 		chartReclamacoes = initChartReclamacoes();
-		chartReclamacoes.setTitle("Reclamações de " + anoSelecionado);
-		chartReclamacoes.setAnimate(true);
-		chartReclamacoes.setLegendPosition("ne");
-		chartReclamacoes.setShadow(true);
-		chartReclamacoes.setShowDatatip(true);
-		chartReclamacoes.setShowPointLabels(true);
+		chartReclamacoes.setAspectRatio(AspectRatio.OCTAVE);
+		chartReclamacoes.setShowTooltip(true);
+		chartReclamacoes.setSeriesBarDistance(15);
+		chartReclamacoes.setAnimateAdvanced(true);
 
-		Axis xAxis = new CategoryAxis();
-		chartReclamacoes.getAxes().put(AxisType.X, xAxis);
-
-		Axis yAxis = chartReclamacoes.getAxis(AxisType.Y);
-		yAxis.setLabel("Quantidade de Reclamações");
-		yAxis.setMin(0);
-		yAxis.setMax(this.maxValueChart>10?this.maxValueChart+2:10);
-		yAxis.setTickInterval("1");
+		Axis xAxis = chartReclamacoes.getAxis(AxisType.X);
+		xAxis.setShowGrid(false);
 	}
 	
 	private BarChartModel initChartReclamacoes() {
 		BarChartModel model = new BarChartModel();
 
-		ChartSeries analiseGravidade = new ChartSeries(StatusReclamacaoEnum.ANALISE_GRAVIDADE.getValue());
+		BarChartSeries analiseGravidade = new BarChartSeries();
+		analiseGravidade.setName(StatusReclamacaoEnum.ANALISE_GRAVIDADE.getValue());
 		
+		for (Integer mes = 1; mes <= DataUtil.MESES_DO_ANO.length; mes++){
+			model.addLabel(DataUtil.MESES_DO_ANO[mes-1].substring(0, 3));
+		}
+			
 		for (Integer mes = 1; mes <= DataUtil.MESES_DO_ANO.length; mes++) {
 			Long valor = reclamacaoService.calculaReclamacoesNoPeriodo(mes, anoSelecionado,
 					StatusReclamacaoEnum.ANALISE_GRAVIDADE.getId());
-			setMaxValueChart(valor);
-			analiseGravidade.set(DataUtil.MESES_DO_ANO[mes-1], valor);
+			analiseGravidade.set(valor);
 		}
 		
-		ChartSeries analiseAcao = new ChartSeries(StatusReclamacaoEnum.ACAO_TOMADA.getValue());
+		BarChartSeries analiseAcao = new BarChartSeries();
+		analiseAcao.setName(StatusReclamacaoEnum.ACAO_TOMADA.getValue());
 		
 		for (Integer mes = 1; mes <= DataUtil.MESES_DO_ANO.length; mes++) {
 			Long valor = reclamacaoService.calculaReclamacoesNoPeriodo(mes, anoSelecionado,
 					StatusReclamacaoEnum.ACAO_TOMADA.getId());
-			setMaxValueChart(valor);
-			analiseAcao.set(DataUtil.MESES_DO_ANO[mes-1], valor);
+			analiseAcao.set(valor);
 		}
 		
-		ChartSeries analiseAceiteCliente = new ChartSeries(StatusReclamacaoEnum.ACEITE_CLIENTE.getValue());
+		BarChartSeries analiseAceiteCliente = new BarChartSeries();
+		analiseAceiteCliente.setName(StatusReclamacaoEnum.ACEITE_CLIENTE.getValue());
 		
 		for (Integer mes = 1; mes <= DataUtil.MESES_DO_ANO.length; mes++) {
 			Long valor = reclamacaoService.calculaReclamacoesNoPeriodo(mes, anoSelecionado,
 					StatusReclamacaoEnum.ACEITE_CLIENTE.getId());
-			setMaxValueChart(valor);
-			analiseAceiteCliente.set(DataUtil.MESES_DO_ANO[mes-1], valor);
+			analiseAceiteCliente.set(valor);
 		}
 		
-		ChartSeries concluidas = new ChartSeries(StatusReclamacaoEnum.CONCLUIDA.getValue());
+		BarChartSeries concluidas = new BarChartSeries();
+		concluidas.setName(StatusReclamacaoEnum.CONCLUIDA.getValue());
 		
 		for (Integer mes = 1; mes <= DataUtil.MESES_DO_ANO.length; mes++) {
 			Long valor = reclamacaoService.calculaReclamacoesNoPeriodo(mes, anoSelecionado,
 					StatusReclamacaoEnum.CONCLUIDA.getId());
-			setMaxValueChart(valor);
-			concluidas.set(DataUtil.MESES_DO_ANO[mes-1], valor);
+			concluidas.set(valor);
 		}
 		
 		model.addSeries(analiseGravidade);
@@ -158,14 +146,17 @@ public class ChartBean implements Serializable{
 
 	public void criarPieChartReclamacoes() {
 		pieChartReclamacoes = new PieChartModel();
+		pieChartReclamacoes.setAspectRatio(AspectRatio.MAJOR_SEVENTH);
+		List<TipoReclamacao> listTiposReclamacao = tipoReclamacaoService.list();
 		
-		for(TipoReclamacao tipoReclamacao : tipoReclamacaoService.list()) {
-			pieChartReclamacoes.set(tipoReclamacao.getDescricao(), reclamacaoService.calcularReclamacoesPorTipoNoAno(anoSelecionado, tipoReclamacao));
+		for(TipoReclamacao tipoReclamacao : listTiposReclamacao) {
+			pieChartReclamacoes.addLabel(tipoReclamacao.getDescricao());		}
+		
+		for(TipoReclamacao tipoReclamacao : listTiposReclamacao) {
+			pieChartReclamacoes.set(reclamacaoService.calcularReclamacoesPorTipoNoAno(anoSelecionado, tipoReclamacao));
 		}
         
-		pieChartReclamacoes.setTitle("Principais motivos");
-		pieChartReclamacoes.setLegendPosition("w");
-		pieChartReclamacoes.setShowDataLabels(true);
+		pieChartReclamacoes.setShowTooltip(true);
 	}
 	
 	//Gets e Sets =======================================================================================================================
@@ -207,26 +198,6 @@ public class ChartBean implements Serializable{
 
 	public void setLineChartReclamacoes(LineChartModel lineChartReclamacoes) {
 		this.lineChartReclamacoes = lineChartReclamacoes;
-	}
-
-	public Long getMaxValueChart() {
-		return maxValueChart;
-	}
-
-	public void setMaxValueChart(Long valor) {
-		if(valor > getMaxValueChart()){
-			this.maxValueChart = valor;
-		}
-	}
-
-	public Long getMaxValueLineChart() {
-		return maxValueLineChart;
-	}
-
-	public void setMaxValueLineChart(Long valor) {
-		if(valor > getMaxValueLineChart()){
-			this.maxValueLineChart = valor;
-		}
 	}
 
 }

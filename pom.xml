@@ -104,6 +104,14 @@
 			<version>1</version>	
 		</dependency>
 			
+		<!-- CHARTISJSF -->
+		<!-- Depende da versão do Primefaces https://github.com/hatemalimam/ChartistJSF#getting-started -->
+		<dependency>
+		    <groupId>org.chartistjsf</groupId>
+		    <artifactId>ChartistJSF</artifactId>
+		    <version>1.0</version>      
+		</dependency>
+
 		<!-- BOOTSTRAP -->
 		<dependency>
 			<groupId>com.efsavage.twitter.bootstrap</groupId>

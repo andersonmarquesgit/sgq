@@ -6,7 +6,9 @@ import java.util.List;
 import java.util.Locale;
 
 import javax.annotation.PostConstruct;
+import javax.faces.bean.ManagedBean;
 import javax.faces.event.AjaxBehaviorEvent;
+import javax.faces.view.ViewScoped;
 
 import org.apache.commons.lang.time.DateUtils;
 import org.primefaces.context.RequestContext;
@@ -35,6 +37,8 @@ import br.com.sgq.utils.enums.StatusReclamacaoEnum;
  * @author Anderson
  *
  */
+@ManagedBean
+@ViewScoped
 @Controller
 public class ReclamacaoController {
 

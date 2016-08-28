@@ -16,12 +16,16 @@ import org.chartistjsf.model.chart.BarChartSeries;
 import org.chartistjsf.model.chart.LineChartModel;
 import org.chartistjsf.model.chart.LineChartSeries;
 import org.chartistjsf.model.chart.PieChartModel;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
+import br.com.sgq.model.Gravidade;
+import br.com.sgq.model.Reclamacao;
 import br.com.sgq.model.TipoReclamacao;
 import br.com.sgq.service.ReclamacaoService;
 import br.com.sgq.service.TipoReclamacaoService;
 import br.com.sgq.utils.DataUtil;
+import br.com.sgq.utils.enums.GravidadeEnum;
 import br.com.sgq.utils.enums.StatusReclamacaoEnum;
 
 @ManagedBean
@@ -37,11 +41,15 @@ public class ChartBean implements Serializable{
 	
 	private List<Integer> listaAnos;
 	private Integer anoSelecionado;
+	private Integer totalDefinir = 0;
+	private Integer totalBaixa = 0;
+	private Integer totalMedia = 0;
+	private Integer totalAlta = 0;
 	
-	@Inject
+	@Autowired
 	private ReclamacaoService reclamacaoService;
 	
-	@Inject
+	@Autowired
 	private TipoReclamacaoService tipoReclamacaoService;
 
 	@PostConstruct
@@ -51,6 +59,23 @@ public class ChartBean implements Serializable{
 		criarChartReclamacoes();
 		criarPieChartReclamacoes();
 		criarLineChartReclamacoes();
+		carregarTotaisPorStatus();
+	}
+
+	private void carregarTotaisPorStatus() {
+		List<Reclamacao> reclamacoesPorMesEAno = reclamacaoService.listarPorMesEAno(DataUtil.getMesAtual(), DataUtil.getAnoAtual());
+		
+		for (Reclamacao reclamacao : reclamacoesPorMesEAno) {
+			if(reclamacao.getGravidade().getId() == GravidadeEnum.BAIXA.getId()){
+				totalBaixa += 1;
+			}else  if(reclamacao.getGravidade().getId() == GravidadeEnum.MEDIA.getId()){
+				totalMedia += 1;
+			}else if(reclamacao.getGravidade().getId() == GravidadeEnum.ALTA.getId()){
+				totalAlta += 1;
+			}else{
+				totalDefinir += 1;
+			}
+		}
 	}
 
 	public void selecionarAno() {
@@ -150,7 +175,8 @@ public class ChartBean implements Serializable{
 		List<TipoReclamacao> listTiposReclamacao = tipoReclamacaoService.list();
 		
 		for(TipoReclamacao tipoReclamacao : listTiposReclamacao) {
-			pieChartReclamacoes.addLabel(tipoReclamacao.getDescricao());		}
+			pieChartReclamacoes.addLabel(tipoReclamacao.getDescricao());		
+		}
 		
 		for(TipoReclamacao tipoReclamacao : listTiposReclamacao) {
 			pieChartReclamacoes.set(reclamacaoService.calcularReclamacoesPorTipoNoAno(anoSelecionado, tipoReclamacao));
@@ -198,6 +224,38 @@ public class ChartBean implements Serializable{
 
 	public void setLineChartReclamacoes(LineChartModel lineChartReclamacoes) {
 		this.lineChartReclamacoes = lineChartReclamacoes;
+	}
+
+	public Integer getTotalDefinir() {
+		return totalDefinir;
+	}
+
+	public void setTotalDefinir(Integer totalDefinir) {
+		this.totalDefinir = totalDefinir;
+	}
+
+	public Integer getTotalBaixa() {
+		return totalBaixa;
+	}
+
+	public void setTotalBaixa(Integer totalBaixa) {
+		this.totalBaixa = totalBaixa;
+	}
+
+	public Integer getTotalMedia() {
+		return totalMedia;
+	}
+
+	public void setTotalMedia(Integer totalMedia) {
+		this.totalMedia = totalMedia;
+	}
+
+	public Integer getTotalAlta() {
+		return totalAlta;
+	}
+
+	public void setTotalAlta(Integer totalAlta) {
+		this.totalAlta = totalAlta;
 	}
 
 }

@@ -41,10 +41,10 @@ public class ChartBean implements Serializable{
 	
 	private List<Integer> listaAnos;
 	private Integer anoSelecionado;
-	private Integer totalDefinir = 0;
-	private Integer totalBaixa = 0;
-	private Integer totalMedia = 0;
-	private Integer totalAlta = 0;
+	private Integer totalDefinir;
+	private Integer totalBaixa;
+	private Integer totalMedia;
+	private Integer totalAlta;
 	
 	@Autowired
 	private ReclamacaoService reclamacaoService;
@@ -62,8 +62,12 @@ public class ChartBean implements Serializable{
 		carregarTotaisPorStatus();
 	}
 
-	private void carregarTotaisPorStatus() {
+	public void carregarTotaisPorStatus() {
 		List<Reclamacao> reclamacoesPorMesEAno = reclamacaoService.listarPorMesEAno(DataUtil.getMesAtual(), DataUtil.getAnoAtual());
+		this.totalDefinir = 0;
+		this.totalBaixa = 0;
+		this.totalMedia = 0;
+		this.totalAlta = 0;
 		
 		for (Reclamacao reclamacao : reclamacoesPorMesEAno) {
 			if(reclamacao.getGravidade().getId() == GravidadeEnum.BAIXA.getId()){

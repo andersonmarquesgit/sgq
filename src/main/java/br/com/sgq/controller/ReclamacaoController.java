@@ -69,6 +69,9 @@ public class ReclamacaoController {
 	@Autowired
 	private UserSession userSession;
 
+	@Autowired
+	private ChartBean chartBean;
+	
 	@PostConstruct
 	public void init() {
 		this.inicializarObjetosDaTela();
@@ -153,7 +156,14 @@ public class ReclamacaoController {
 		RequestContext.getCurrentInstance().update("formReclamacoes");
 		FacesUtil.obterFlashScope().setKeepMessages(true);
 		FacesUtil.adicionarMensagem(MsgConstantes.SUCESSO);
+		this.atualizarDadosDoDashboard();
 		return this.redirectSac();
+	}
+	
+	private void atualizarDadosDoDashboard(){
+		chartBean.carregarTotaisPorStatus();
+		chartBean.criarChartReclamacoes();
+		chartBean.criarPieChartReclamacoes();
 	}
 
 	public String cancelarNovaReclamacao() {

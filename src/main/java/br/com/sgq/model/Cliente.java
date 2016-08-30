@@ -1,11 +1,13 @@
 package br.com.sgq.model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -23,10 +25,11 @@ public class Cliente {
 	@Column(name="nome", nullable=false)
     private String nome;
 	
-	@Column(name="telefone", nullable=false)
+	@Column(name="telefone")
     private String telefone;
 	
-	@Embedded
+	@OneToOne(cascade = CascadeType.ALL, optional = true, orphanRemoval = true)
+	@JoinColumn(name="fk_endereco")
 	private Endereco endereco;
 
 	public Long getId() {

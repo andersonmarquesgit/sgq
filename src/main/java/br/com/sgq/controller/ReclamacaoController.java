@@ -18,12 +18,15 @@ import org.springframework.stereotype.Controller;
 import br.com.sgq.autenticacao.UserSession;
 import br.com.sgq.model.AcaoTomada;
 import br.com.sgq.model.AceiteCliente;
+import br.com.sgq.model.Cidade;
 import br.com.sgq.model.Cliente;
 import br.com.sgq.model.Endereco;
+import br.com.sgq.model.Estado;
 import br.com.sgq.model.Gravidade;
 import br.com.sgq.model.Reclamacao;
 import br.com.sgq.model.StatusReclamacao;
 import br.com.sgq.model.TipoReclamacao;
+import br.com.sgq.service.EnderecoService;
 import br.com.sgq.service.ReclamacaoService;
 import br.com.sgq.service.StatusReclamacaoService;
 import br.com.sgq.service.TipoReclamacaoService;
@@ -50,13 +53,15 @@ public class ReclamacaoController {
 	private Reclamacao reclamacaoSelecionada;
 	private Cliente cliente;
 	private Endereco endereco;
-	private String cep;
 	private List<TipoReclamacao> tipoReclamacaoList;
 	private Gravidade gravidade;
 	private Gravidade complexidade;
 	private AcaoTomada acaoTomada;
 	private AceiteCliente aceiteCliente;
-
+	private List<Estado> estados;
+	private List<Cidade> cidades;
+	private Estado estado;
+	
 	@Autowired
 	private TipoReclamacaoService tipoReclamacaoService;
 
@@ -72,6 +77,9 @@ public class ReclamacaoController {
 	@Autowired
 	private ChartBean chartBean;
 	
+	@Autowired
+	private EnderecoService enderecoService;
+	
 	@PostConstruct
 	public void init() {
 		this.inicializarObjetosDaTela();
@@ -82,12 +90,12 @@ public class ReclamacaoController {
 		endereco = new Endereco();
 		gravidade = null;
 		complexidade = null;
-		cep = "";
 		tipoReclamacaoList = tipoReclamacaoService.list();
 		this.inicializarReclamacao();
 		this.inicializarReclamacoes();
 		this.inicializarAcaoTomada();
 		this.inicializarAceiteCliente();
+		this.inicializarEstados();
 	}
 
 	private void inicializarReclamacao() {
@@ -107,6 +115,10 @@ public class ReclamacaoController {
 		aceiteCliente = new AceiteCliente();
 	}
 
+	private void inicializarEstados() {
+		estados = enderecoService.listarEstados();
+	}
+	
 	public void adicionarReclamacao() {
 		if (validarCamposObrigatoriosDoCliente()
 				|| validarCamposObrigatoriosDaReclamacao()) {
@@ -331,8 +343,7 @@ public class ReclamacaoController {
 	 * seja, a realização da análise do aceite do cliente {@link AceiteCliente}
 	 */
 	public void confirmAceiteReclamacao() {
-		RequestContext.getCurrentInstance().execute(
-				"PF('modalAceiteCliente').hide();");
+		RequestContext.getCurrentInstance().execute("PF('modalAceiteCliente').hide();");
 		this.quartaEtapaDaReclamacao();
 		reclamacaoService.salvar(reclamacao);
 		FacesUtil.adicionarMensagem(MsgConstantes.SUCESSO_ANALISE_ACEITE);
@@ -364,10 +375,10 @@ public class ReclamacaoController {
 		return FacesUtil.sendRedirect("/paginas/sac/sac");
 	}
 
-	public void buscarEndereco(AjaxBehaviorEvent event) {
-		endereco = CepUtil.buscarEndereco(this.cep);
+	public void listarCidadesPorEstado() {
+		cidades = enderecoService.listarCidadesPorEstado(this.estado.getId());
 	}
-
+	
 	public boolean filterByData(Object value, Object filter, Locale locale) {
 		if (filter == null) {
 			return true;
@@ -439,14 +450,6 @@ public class ReclamacaoController {
 		this.endereco = endereco;
 	}
 
-	public String getCep() {
-		return cep;
-	}
-
-	public void setCep(String cep) {
-		this.cep = cep;
-	}
-
 	public List<TipoReclamacao> getTipoReclamacaoList() {
 		return tipoReclamacaoList;
 	}
@@ -493,6 +496,30 @@ public class ReclamacaoController {
 
 	public void setReclamacoesFiltradas(List<Reclamacao> reclamacoesFiltradas) {
 		this.reclamacoesFiltradas = reclamacoesFiltradas;
+	}
+
+	public List<Estado> getEstados() {
+		return estados;
+	}
+
+	public void setEstados(List<Estado> estados) {
+		this.estados = estados;
+	}
+
+	public Estado getEstado() {
+		return estado;
+	}
+
+	public void setEstado(Estado estado) {
+		this.estado = estado;
+	}
+
+	public List<Cidade> getCidades() {
+		return cidades;
+	}
+
+	public void setCidades(List<Cidade> cidades) {
+		this.cidades = cidades;
 	}
 
 }

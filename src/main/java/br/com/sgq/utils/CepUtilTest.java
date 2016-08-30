@@ -15,6 +15,6 @@ public class CepUtilTest {
 		System.out.println("Logradouro: " + endereco.getLogradouro());
 		System.out.println("Bairro: " + endereco.getBairro());
 		System.out.println("Cidade: " + endereco.getCidade());
-		System.out.println("Estado: " + endereco.getUf());
+		System.out.println("Estado: " + endereco.getCidade().getEstado().getSigla());
 	}
 }

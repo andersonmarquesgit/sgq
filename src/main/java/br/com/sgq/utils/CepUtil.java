@@ -12,8 +12,8 @@ public class CepUtil {
         if(webServiceCep.wasSuccessful()) {
         	endereco.setLogradouro(webServiceCep.getLogradouroFull());
         	endereco.setBairro(webServiceCep.getBairro());
-        	endereco.setCidade(webServiceCep.getCidade());
-        	endereco.setUf(webServiceCep.getUf());
+//        	endereco.setCidade(webServiceCep.getCidade());
+//        	endereco.setUf(webServiceCep.getUf());
         	endereco.setCep(webServiceCep.getCep());
         }
         return endereco;

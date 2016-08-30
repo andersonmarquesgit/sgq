@@ -1,60 +1,96 @@
 package br.com.sgq.model;
 
 import javax.persistence.Column;
-import javax.persistence.Embeddable;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
-@Embeddable
+@Entity
+@Table(name = "tb_endereco")
 public class Endereco {
 	
-	@Column(name="cep") 
-	String cep;
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	@Column(name="id")
+    private Long id;
 	
 	@Column(name="logradouro") 
-	String logradouro;
+	private String logradouro;
+	
+	@ManyToOne
+	@JoinColumn(name="fk_cidade")
+	private Cidade cidade;
+
+	@Column(name="cep") 
+	private String cep;
 	
 	@Column(name="numero_endereco") 
-	String numero;
+	private String numero;
 	
 	@Column(name="complemento") 
-	String complemento;
+	private String complemento;
 	
 	@Column(name="bairro") 
-	String bairro;
-	
-	@Column(name="cidade") 
-	String cidade;
-	
-	@Column(name="uf") 
-	String uf;
-	
-	public String getCep() {
-		return cep;
+	private String bairro;
+
+	public Long getId() {
+		return id;
 	}
-	public void setCep(String cep) {
-		this.cep = cep;
+
+	public void setId(Long id) {
+		this.id = id;
 	}
+
 	public String getLogradouro() {
 		return logradouro;
 	}
+
 	public void setLogradouro(String logradouro) {
 		this.logradouro = logradouro;
 	}
+
+	public Cidade getCidade() {
+		return cidade;
+	}
+
+	public void setCidade(Cidade cidade) {
+		this.cidade = cidade;
+	}
+
+	public String getCep() {
+		return cep;
+	}
+
+	public void setCep(String cep) {
+		this.cep = cep;
+	}
+
+	public String getNumero() {
+		return numero;
+	}
+
+	public void setNumero(String numero) {
+		this.numero = numero;
+	}
+
+	public String getComplemento() {
+		return complemento;
+	}
+
+	public void setComplemento(String complemento) {
+		this.complemento = complemento;
+	}
+
 	public String getBairro() {
 		return bairro;
 	}
+
 	public void setBairro(String bairro) {
 		this.bairro = bairro;
 	}
-	public String getCidade() {
-		return cidade;
-	}
-	public void setCidade(String cidade) {
-		this.cidade = cidade;
-	}
-	public String getUf() {
-		return uf;
-	}
-	public void setUf(String uf) {
-		this.uf = uf;
-	}
+	
 }

@@ -7,9 +7,9 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.view.ViewScoped;
-import javax.servlet.http.Part;
 
 import org.primefaces.context.RequestContext;
+import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.LazyDataModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,6 +21,8 @@ import br.com.sgq.model.TipoDocumento;
 import br.com.sgq.service.DocumentoService;
 import br.com.sgq.service.ElementoService;
 import br.com.sgq.service.TipoDocumentoService;
+import br.com.sgq.utils.FacesUtil;
+import br.com.sgq.utils.MsgConstantes;
 import br.com.sgq.utils.enums.TipoDocumentoEnum;
 
 @ManagedBean
@@ -28,7 +30,6 @@ import br.com.sgq.utils.enums.TipoDocumentoEnum;
 @Controller
 public class DocumentoController {
 
-	private Part arquivo;
 	private Documento documento;
 	private LazyDataModel<Documento> documentosProcedimentos;
 	private LazyDataModel<Documento> documentosPoliticas;
@@ -36,6 +37,7 @@ public class DocumentoController {
 	private LazyDataModel<Documento> documentosDesignacoes;
 	private LazyDataModel<Documento> documentosExternos;
 	private List<TipoDocumento> tiposDeDocumentos;
+	private List<TipoDocumento> tiposDeDocumentosExternos;
 	private List<Elemento> elementos;
 	
 	@Autowired
@@ -53,14 +55,27 @@ public class DocumentoController {
 	}
 
 	public void inicializarObjetos() {
+		inicializarDocumentosInternos();
+		inicializarDocumentosExternos();
+		inicializarElementosENovoDoc();
+	}
+
+	private void inicializarElementosENovoDoc() {
+		elementos = elementoService.list();
+		documento = new Documento();
+	}
+
+	private void inicializarDocumentosExternos() {
+		documentosExternos = new DocumentoLazyList(TipoDocumentoEnum.DOCUMENTOS_COMPLEMENTARES.getId(), documentoService);
+		tiposDeDocumentosExternos = tipoDocumentoService.findById(TipoDocumentoEnum.DOCUMENTOS_COMPLEMENTARES.getId());
+	}
+
+	private void inicializarDocumentosInternos() {
+		tiposDeDocumentos = tipoDocumentoService.list();
 		documentosProcedimentos = new DocumentoLazyList(TipoDocumentoEnum.PROCEDIMENTO.getId(), documentoService);
 		documentosPoliticas = new DocumentoLazyList(TipoDocumentoEnum.POLITICA_TRATAMENTO_RECLAMACAO.getId(), documentoService);
 		documentosTreinamentos = new DocumentoLazyList(TipoDocumentoEnum.TREINAMENTO.getId(), documentoService);
 		documentosDesignacoes = new DocumentoLazyList(TipoDocumentoEnum.DESIGNACAO.getId(), documentoService);
-		documentosExternos = new DocumentoLazyList(TipoDocumentoEnum.DOCUMENTOS_COMPLEMENTARES.getId(), documentoService);
-		elementos = elementoService.list();
-		tiposDeDocumentos = tipoDocumentoService.list();
-		documento = new Documento();
 	}
 	
 	public LazyDataModel<Documento> listDocumentosProcedimentos(){
@@ -83,19 +98,20 @@ public class DocumentoController {
 		return new DocumentoLazyList(TipoDocumentoEnum.DOCUMENTOS_COMPLEMENTARES.getId(), documentoService);
 	}
 	
-	public String uploadDocumento() throws IOException {
-		InputStream inputStream = arquivo.getInputStream();
-		byte[] conteudo = new byte[inputStream.available()];
-		inputStream.read(conteudo);
-		inputStream.close();
-		documento.setConteudo(conteudo);
-		documento.setNomeArquivo(getFileName(arquivo));
-		documentoService.salvar(documento);
-		this.inicializarObjetos();
-
-		return "success";
+	public void adicionarDocExterno() {
+		RequestContext.getCurrentInstance().execute("PF('modalAddDocumento').show();");
 	}
-
+	
+	public void cancelarEnvioDocExterno() {
+		this.inicializarObjetos();
+		RequestContext.getCurrentInstance().update("modalAddDocumento");
+		RequestContext.getCurrentInstance().execute("PF('modalAddDocumento').hide();");
+	}
+	
+	public void adicionarDocInterno() {
+		RequestContext.getCurrentInstance().execute("PF('modalAddDocumentoInterno').show();");
+	}
+	
 	public void cancelarInclusao() {
 		this.inicializarObjetos();
 		RequestContext.getCurrentInstance().update("formDocumentosInternos");
@@ -105,27 +121,56 @@ public class DocumentoController {
 	public void visualizarDocumento(Documento documentoSelecionado) {
 		documentoService.visualizarDocumento(documentoSelecionado);
 	}
-
-	private static String getFileName(Part part) {
-		for (String cd : part.getHeader("content-disposition").split(";")) {
-			if (cd.trim().startsWith("filename")) {
-				String filename = cd.substring(cd.indexOf('=') + 1).trim()
-						.replace("\"", "");
-				return filename.substring(filename.indexOf('/') + 1).substring(
-						filename.lastIndexOf('\\') + 1);
-			}
+	
+	public void uploadFile(FileUploadEvent event)throws IOException{
+		InputStream inputStream = event.getFile().getInputstream();
+		byte[] conteudo = new byte[inputStream.available()];
+		inputStream.read(conteudo);
+		inputStream.close();
+		documento.setConteudo(conteudo);
+		documento.setNomeArquivo(event.getFile().getFileName());
+	}
+	
+	public void confirmarInclusaoDocExterno(){
+		if(camposObrigatoriosPreenchidos()) {
+			documentoService.salvar(documento);
+			this.inicializarDocumentosExternos();
+			this.inicializarElementosENovoDoc();
+			RequestContext.getCurrentInstance().update("formAddDocumento");
+			RequestContext.getCurrentInstance().update("dataTableDocExternos");
+			RequestContext.getCurrentInstance().execute("PF('modalAddDocumento').hide();");
+			FacesUtil.adicionarMensagem(MsgConstantes.SUCESSO_DOCUMENTO_EXTERNO);
+		}else {
+			FacesUtil.adicionarErro(MsgConstantes.VALIDACAO_CAMPOS_OBRIGATORIOS);
 		}
-		return null;
 	}
-
-	public Part getArquivo() {
-		return arquivo;
+	
+	public void confirmarInclusaoDocInterno(){
+		if(camposObrigatoriosPreenchidos()) {
+			documentoService.salvar(documento);
+			this.inicializarDocumentosInternos();
+			this.inicializarElementosENovoDoc();
+			RequestContext.getCurrentInstance().update("formAddDocumentoInterno");
+			RequestContext.getCurrentInstance().execute("PF('modalAddDocumentoInterno').hide();");
+			FacesUtil.adicionarMensagem(MsgConstantes.SUCESSO_DOCUMENTO_INTERNO);
+		}else {
+			FacesUtil.adicionarErro(MsgConstantes.VALIDACAO_CAMPOS_OBRIGATORIOS);
+		}
 	}
-
-	public void setArquivo(Part arquivo) {
-		this.arquivo = arquivo;
+	
+	public boolean camposObrigatoriosPreenchidos() {
+		if(documento.getConteudo() != null
+				&& !documento.getDescricao().isEmpty() && documento.getDescricao() != null
+				&& !documento.getTitulo().isEmpty() && documento.getTitulo() != null
+				&& documento.getElemento() != null && documento.getTipoDocumento() != null){
+			return true;
+		}
+		
+		return false;
 	}
-
+	
+	// Gets e Sets
+	// ==============================================================================================
 	public Documento getDocumento() {
 		return documento;
 	}
@@ -194,5 +239,12 @@ public class DocumentoController {
 		this.documentosExternos = documentosExternos;
 	}
 
+	public List<TipoDocumento> getTiposDeDocumentosExternos() {
+		return tiposDeDocumentosExternos;
+	}
 
+	public void setTiposDeDocumentosExternos(
+			List<TipoDocumento> tiposDeDocumentosExternos) {
+		this.tiposDeDocumentosExternos = tiposDeDocumentosExternos;
+	}
 }

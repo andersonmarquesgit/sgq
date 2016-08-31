@@ -17,5 +17,9 @@ public class TipoDocumentoService {
 	public List<TipoDocumento> list() {
 		return tipoDocumentoRepository.findAll();
 	}
+	
+	public List<TipoDocumento> findById(Long id) {
+		return tipoDocumentoRepository.findById(id);
+	}
 
 }

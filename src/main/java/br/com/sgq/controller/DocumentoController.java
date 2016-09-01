@@ -138,8 +138,8 @@ public class DocumentoController {
 			documentoService.salvar(documento);
 			this.inicializarDocumentosExternos();
 			this.inicializarElementosENovoDoc();
-			RequestContext.getCurrentInstance().update("formAddDocumento");
-			RequestContext.getCurrentInstance().update("dataTableDocExternos");
+			RequestContext.getCurrentInstance().update("modalAddDocumento");
+			RequestContext.getCurrentInstance().update("formDocumentosInternos");
 			RequestContext.getCurrentInstance().execute("PF('modalAddDocumento').hide();");
 			FacesUtil.adicionarMensagem(MsgConstantes.SUCESSO_DOCUMENTO_EXTERNO);
 		}else {
@@ -152,7 +152,8 @@ public class DocumentoController {
 			documentoService.salvar(documento);
 			this.inicializarDocumentosInternos();
 			this.inicializarElementosENovoDoc();
-			RequestContext.getCurrentInstance().update("formAddDocumentoInterno");
+			RequestContext.getCurrentInstance().update("modalAddDocumentoInterno");
+			RequestContext.getCurrentInstance().update("formDocumentosInternos");
 			RequestContext.getCurrentInstance().execute("PF('modalAddDocumentoInterno').hide();");
 			FacesUtil.adicionarMensagem(MsgConstantes.SUCESSO_DOCUMENTO_INTERNO);
 		}else {

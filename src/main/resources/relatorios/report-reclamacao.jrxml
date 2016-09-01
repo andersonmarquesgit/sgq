@@ -1,0 +1,307 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.2.0.final using JasperReports Library version 6.2.0  -->
+<!-- 2016-01-16T21:20:54 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report-reclamacao" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="d6ae3d07-d932-4f9e-8b12-6f6696a803ba">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<style name="Title" fontName="Times New Roman" fontSize="50" isBold="true"/>
+	<style name="SubTitle" forecolor="#736343" fontName="Arial" fontSize="18"/>
+	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
+	<style name="Detail" fontName="Arial" fontSize="12"/>
+	<style name="Row" mode="Transparent">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style backcolor="#E6DAC3"/>
+		</conditionalStyle>
+	</style>
+	<parameter name="ID_RECLAMACAO" class="java.lang.Long"/>
+	<queryString>
+		<![CDATA[SELECT re.numero_reclamacao, re.dt_inclusao, re.dt_prazo_resposta, re.descricao, re.remediacao_sugerida, cli.nome, cli.telefone, cli.email,
+sr.descricao as status, tr.descricao as tipo_reclamacao, g.descricao as gravidade
+FROM tb_reclamacao re
+JOIN tb_cliente cli ON re.fk_cliente = cli.id
+JOIN tb_status_reclamacao sr ON Re.fk_status_reclamacao = sr.id
+JOIN tb_tipo_reclamacao tr ON re.fk_tipo_reclamacao = tr.id
+LEFT JOIN tb_gravidade g ON re.fk_gravidade = g.id 
+LEFT JOIN tb_complexidade c ON re.fk_complexidade = c.id
+LEFT JOIN tb_aceite_cliente ac ON re.fk_aceite_cliente = ac.id
+WHERE re.id = $P{ID_RECLAMACAO}]]>
+	</queryString>
+	<field name="numero_reclamacao" class="java.lang.String"/>
+	<field name="dt_inclusao" class="java.sql.Timestamp"/>
+	<field name="dt_prazo_resposta" class="java.sql.Timestamp"/>
+	<field name="descricao" class="java.lang.String"/>
+	<field name="nome" class="java.lang.String"/>
+	<field name="telefone" class="java.lang.String"/>
+	<field name="email" class="java.lang.String"/>
+	<field name="remediacao_sugerida" class="java.lang.String"/>
+	<field name="status" class="java.lang.String"/>
+	<field name="tipo_reclamacao" class="java.lang.String"/>
+	<field name="gravidade" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="76" splitType="Stretch">
+			<staticText>
+				<reportElement style="Title" x="77" y="0" width="400" height="40" uuid="f8954fdd-805c-40e9-a19c-bfddf14e97fb"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="24"/>
+				</textElement>
+				<text><![CDATA[Reclamação]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="240" y="40" width="114" height="20" uuid="03c0b998-8802-4ad8-9b62-2a9fd2277e9f"/>
+				<box>
+					<topPen lineWidth="0.1" lineStyle="Solid" lineColor="#666666"/>
+					<leftPen lineWidth="0.1" lineStyle="Solid" lineColor="#666666"/>
+					<bottomPen lineWidth="0.1" lineStyle="Solid" lineColor="#666666"/>
+					<rightPen lineWidth="0.1" lineStyle="Solid" lineColor="#666666"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{numero_reclamacao}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="21" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="15" width="555" height="1" uuid="e0958dac-c4e1-489e-824d-0b94f4a95b83"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement style="Column header" mode="Opaque" x="200" y="-36" width="40" height="20" forecolor="#FFFFFF" backcolor="#337AB7" uuid="7238e5f0-7ba0-410f-a21f-cde46b126dd3"/>
+				<box>
+					<topPen lineWidth="0.1" lineStyle="Solid" lineColor="#666666"/>
+					<leftPen lineWidth="0.1" lineStyle="Solid" lineColor="#666666"/>
+					<bottomPen lineWidth="0.1" lineStyle="Solid" lineColor="#666666"/>
+					<rightPen lineWidth="0.1" lineStyle="Solid" lineColor="#666666"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<text><![CDATA[Nº]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="0" y="-10" width="140" height="24" forecolor="#B6B6B6" uuid="7edd4b99-b559-479a-9d18-c9ae574e90c7"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="14" isBold="true"/>
+					<paragraph lineSpacing="Fixed" leftIndent="5"/>
+				</textElement>
+				<text><![CDATA[Dados do cliente]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="197" splitType="Stretch">
+			<staticText>
+				<reportElement style="Column header" x="0" y="2" width="50" height="15" forecolor="#337AB7" uuid="748e6c63-5724-49d1-87a8-5e9fcc1dafa7"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="10" isBold="true"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<text><![CDATA[Nome:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="0" y="26" width="60" height="15" forecolor="#337AB7" uuid="5607fcb4-5496-45d0-82b7-311ad9e30739"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="10"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<text><![CDATA[Telefone:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="50" y="2" width="210" height="15" uuid="408d3a49-a472-47df-983b-fed043d9cf29"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nome}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="60" y="26" width="120" height="15" uuid="093f0e1b-07f0-442e-b21c-25878fe4be71"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{telefone}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="Column header" x="0" y="50" width="50" height="15" forecolor="#337AB7" uuid="60ce8fc4-dfe7-4664-8e14-5cbfa73eee98"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="10"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<text><![CDATA[E-mail:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="50" y="50" width="120" height="15" uuid="9fcd217d-5703-4d17-a831-d2bfccf84258"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{email}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="Column header" x="0" y="112" width="110" height="15" forecolor="#337AB7" uuid="f952bddb-1fcd-4ea9-8d09-6070dc3192f4"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="10"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<text><![CDATA[Data de inclusão:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="110" y="112" width="120" height="15" uuid="c0224d76-77c3-40ed-852a-edb007948f6f"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new SimpleDateFormat("dd/MM/yyyy hh:mm:ss").format($F{dt_inclusao})]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="Column header" x="250" y="112" width="126" height="15" forecolor="#337AB7" uuid="58efb0ed-cf0b-4c42-b2d0-73b0a1ced6ec"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="10"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<text><![CDATA[Prazo para resposta:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="377" y="112" width="120" height="15" uuid="dd68d0e6-103f-4998-9b6c-c2e466de702c"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new SimpleDateFormat("dd/MM/yyyy").format($F{dt_prazo_resposta})]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="Column header" x="0" y="136" width="40" height="15" forecolor="#337AB7" uuid="88f00c64-13f3-440c-b969-19784f3a0357"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="10"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<text><![CDATA[Tipo:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="40" y="136" width="120" height="15" uuid="47661d0e-6aec-46b8-99f7-8f3ff188cb7b"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tipo_reclamacao}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="Column header" x="0" y="160" width="70" height="15" forecolor="#337AB7" uuid="acb5b8c6-a490-42f8-875f-ac84da5b1225"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="10"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<text><![CDATA[Gravidade:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="70" y="160" width="120" height="15" uuid="58ac9f4d-ef25-4994-b72f-54aac9504bc6"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{gravidade} == null ? "Definir" : $F{gravidade}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="105" width="555" height="1" uuid="28ce42d5-7178-4c2a-b6a4-4103e343a264"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement style="Column header" x="0" y="81" width="240" height="24" forecolor="#B6B6B6" uuid="859a7f79-58b0-4005-99e6-58f8e120fd25"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="14" isBold="true"/>
+					<paragraph lineSpacing="Fixed" leftIndent="5"/>
+				</textElement>
+				<text><![CDATA[Dados da reclamação]]></text>
+			</staticText>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="25" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="3" width="555" height="1" uuid="328a2848-9699-436c-9804-951653786a21"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="25" splitType="Stretch">
+			<frame>
+				<reportElement mode="Opaque" x="-21" y="1" width="597" height="24" forecolor="#337AB7" backcolor="#337AB7" uuid="6cc23177-4806-4a4d-9d77-2daed21568d8"/>
+				<textField evaluationTime="Report">
+					<reportElement style="Column header" x="533" y="0" width="40" height="20" forecolor="#FFFFFF" uuid="fa4f01e6-1efa-4039-8380-3f97fe4b733c"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="SansSerif" size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement style="Column header" x="453" y="0" width="80" height="20" forecolor="#FFFFFF" uuid="8ac0df9b-5581-45db-9ef7-64c309563642"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="SansSerif" size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Página "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
+				</textField>
+				<textField pattern="EEEEE dd MMMMM yyyy">
+					<reportElement style="Column header" x="22" y="1" width="197" height="20" forecolor="#FFFFFF" uuid="be747a78-71b1-4414-a770-21a2452fb521"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="SansSerif" size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

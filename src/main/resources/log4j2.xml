@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN">
+	<Appenders>
+		<Console name="ConsolePadrao">
+			<PatternLayout>
+				<Pattern>%d{UNIX_MILLIS} %p %c{1} [%t] %m%n</Pattern>
+			</PatternLayout>
+		</Console>
+		<RollingFile name="RollingFile" fileName="./logs/${artifactId}.log"
+			     filePattern="${logs.dir}/logs/$${date:MM-yyyy}/${artifactId}-%d{dd-MM-yyyy}-%i.log.gz">
+			<PatternLayout>
+				<Pattern>%d{UNIX_MILLIS} %p %c{1} [%t] %m%n</Pattern>
+			</PatternLayout>
+			<Policies>
+				<TimeBasedTriggeringPolicy />
+				<SizeBasedTriggeringPolicy size="25 MB" />
+			</Policies>
+			<DefaultRolloverStrategy max="20" />
+		</RollingFile>
+	</Appenders>
+	<Loggers>
+		<Root level="warn">
+			<AppenderRef ref="RollingFile" />
+		</Root>
+		<Logger name="org.hibernate.SQL" level="debug" />
+	</Loggers>
+</Configuration>

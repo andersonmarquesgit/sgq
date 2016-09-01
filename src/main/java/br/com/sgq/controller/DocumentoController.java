@@ -103,7 +103,8 @@ public class DocumentoController {
 	}
 	
 	public void cancelarEnvioDocExterno() {
-		this.inicializarObjetos();
+		this.inicializarDocumentosExternos();
+		this.inicializarElementosENovoDoc();
 		RequestContext.getCurrentInstance().update("modalAddDocumento");
 		RequestContext.getCurrentInstance().execute("PF('modalAddDocumento').hide();");
 	}
@@ -112,9 +113,10 @@ public class DocumentoController {
 		RequestContext.getCurrentInstance().execute("PF('modalAddDocumentoInterno').show();");
 	}
 	
-	public void cancelarInclusao() {
-		this.inicializarObjetos();
-		RequestContext.getCurrentInstance().update("formDocumentosInternos");
+	public void cancelarEnvioDocInterno() {
+		this.inicializarDocumentosInternos();
+		this.inicializarElementosENovoDoc();
+		RequestContext.getCurrentInstance().update("formAddDocumentoInterno");
 		RequestContext.getCurrentInstance().execute("PF('modalAddDocumentoInterno').hide();");
 	}
 	

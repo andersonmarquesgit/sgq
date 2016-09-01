@@ -24,26 +24,23 @@
 					paginator="true" paginatorPosition="bottom" rows="5" rowsPerPageTemplate="5,10,20" style="text-align: center;"
 					tableStyleClass="table table-striped table-hover small table-bordered table-hover"
 					emptyMessage="#{labels.empty_message_documentos}">
-					<p:column headerText="#{labels.documentos_titulo}" sortBy="#{documento.titulo}" width="25%">
-			         	<h:outputText value="#{documento.titulo}"/>
-			      	</p:column>
-			      	<p:column headerText="#{labels.documentos_descricao}" sortBy="#{documento.descricao}">
-			         	<h:outputText value="#{documento.descricao}"/>
-			      	</p:column>
-			      	<p:column headerText="#{labels.documentos_tipo}" sortBy="#{documento.tipoDocumento.descricao}">
-			         	<h:outputText value="#{documento.tipoDocumento.descricao}"/>
-			      	</p:column>
-			      	<p:column headerText="#{labels.documentos_status}" sortBy="#{documento.statusDocumento.descricao}">
-			         	<h:outputText value="#{documento.statusDocumento.descricao}"/>
-			      	</p:column>
-			      	<p:column headerText="#{labels.documentos_revisao}" sortBy="#{documento.revisao}" width="8%">
-			         	<h:outputText value="#{documento.revisao}"/>
-			      	</p:column>
-			      	<p:column headerText="#{labels.opcoes}" width="8%">
-						<p:commandButton icon="fa fa-search" title="Visualizar" ajax="false" onclick="this.form.target='_blank'"
-	               			styleClass="btn btn-default" actionListener="#{documentoController.visualizarDocumento(documento)}"/>    
+					<p:column headerText="#{labels.documentos_titulo}"
+						sortBy="#{documento.titulo}" width="25%">
+						<h:outputText value="#{documento.titulo}" />
 					</p:column>
-			   </p:dataTable>
+					<p:column headerText="#{labels.documentos_descricao}">
+						<h:outputText value="#{documento.descricao}" />
+					</p:column>
+					<p:column headerText="#{labels.documentos_elemento}">
+						<h:outputText value="#{documento.elemento.descricao}" />
+					</p:column>
+					<p:column headerText="#{labels.opcoes}" width="8%">
+						<p:commandButton icon="fa fa-search" title="Visualizar"
+							ajax="false" onclick="this.form.target='_blank'"
+							styleClass="btn btn-default"
+							actionListener="#{documentoController.visualizarDocumento(documento)}" />
+					</p:column>
+					</p:dataTable>
 	      	</div>
       	</div>
     </div>
@@ -57,24 +54,21 @@
 			   		rowStyleClass="ui-state-never-highlight" paginator="true" paginatorAlwaysVisible="false" var="documento"
 			   		pageLinks="10" rows="10" rowsPerPageTemplate="10,20,50" paginatorPosition="bottom" style="text-align: center;"
 			   		emptyMessage="#{labels.empty_message_documentos}" lazy="true">
-			      	<p:column headerText="#{labels.documentos_titulo}" sortBy="#{documento.titulo}" width="25%">
-			         	<h:outputText value="#{documento.titulo}"/>
-			      	</p:column>
-			      	<p:column headerText="#{labels.documentos_descricao}" sortBy="#{documento.descricao}">
-			         	<h:outputText value="#{documento.descricao}"/>
-			      	</p:column>
-			      	<p:column headerText="#{labels.documentos_tipo}" sortBy="#{documento.tipoDocumento.descricao}">
-			         	<h:outputText value="#{documento.tipoDocumento.descricao}"/>
-			      	</p:column>
-			      	<p:column headerText="#{labels.documentos_status}" sortBy="#{documento.statusDocumento.descricao}">
-			         	<h:outputText value="#{documento.statusDocumento.descricao}"/>
-			      	</p:column>
-			      	<p:column headerText="#{labels.documentos_revisao}" sortBy="#{documento.revisao}" width="8%">
-			         	<h:outputText value="#{documento.revisao}"/>
-			      	</p:column>
-			      	<p:column headerText="#{labels.opcoes}" width="8%">
-						<p:commandButton icon="fa fa-search" title="Visualizar" ajax="false" onclick="this.form.target='_blank'"
-		               			styleClass="btn btn-default" actionListener="#{documentoController.visualizarDocumento(documento)}"/>   
+			      	<p:column headerText="#{labels.documentos_titulo}"
+						sortBy="#{documento.titulo}" width="25%">
+						<h:outputText value="#{documento.titulo}" />
+					</p:column>
+					<p:column headerText="#{labels.documentos_descricao}">
+						<h:outputText value="#{documento.descricao}" />
+					</p:column>
+					<p:column headerText="#{labels.documentos_elemento}">
+						<h:outputText value="#{documento.elemento.descricao}" />
+					</p:column>
+					<p:column headerText="#{labels.opcoes}" width="8%">
+						<p:commandButton icon="fa fa-search" title="Visualizar"
+							ajax="false" onclick="this.form.target='_blank'"
+							styleClass="btn btn-default"
+							actionListener="#{documentoController.visualizarDocumento(documento)}" />
 					</p:column>
 			   </p:dataTable> 
 			</div>
@@ -90,24 +84,21 @@
 			   		rowStyleClass="ui-state-never-highlight" paginator="true" paginatorAlwaysVisible="false" var="documento"
 			   		pageLinks="10" rows="10" rowsPerPageTemplate="10,20,50" paginatorPosition="bottom" style="text-align: center;"
 			   		emptyMessage="#{labels.empty_message_documentos}" lazy="true">
-			      	<p:column headerText="#{labels.documentos_titulo}" sortBy="#{documento.titulo}" width="25%">
-			         	<h:outputText value="#{documento.titulo}"/>
-			      	</p:column>
-			      	<p:column headerText="#{labels.documentos_descricao}" sortBy="#{documento.descricao}">
-			         	<h:outputText value="#{documento.descricao}"/>
-			      	</p:column>
-			      	<p:column headerText="#{labels.documentos_tipo}" sortBy="#{documento.tipoDocumento.descricao}">
-			         	<h:outputText value="#{documento.tipoDocumento.descricao}"/>
-			      	</p:column>
-			      	<p:column headerText="#{labels.documentos_status}" sortBy="#{documento.statusDocumento.descricao}">
-			         	<h:outputText value="#{documento.statusDocumento.descricao}"/>
-			      	</p:column>
-			      	<p:column headerText="#{labels.documentos_revisao}" sortBy="#{documento.revisao}" width="8%">
-			         	<h:outputText value="#{documento.revisao}"/>
-			      	</p:column>
-			      	<p:column headerText="#{labels.opcoes}" width="8%">
-						<p:commandButton icon="fa fa-search" title="Visualizar" ajax="false" onclick="this.form.target='_blank'"
-		               			styleClass="btn btn-default" actionListener="#{documentoController.visualizarDocumento(documento)}"/>   
+			      	<p:column headerText="#{labels.documentos_titulo}"
+						sortBy="#{documento.titulo}" width="25%">
+						<h:outputText value="#{documento.titulo}" />
+					</p:column>
+					<p:column headerText="#{labels.documentos_descricao}">
+						<h:outputText value="#{documento.descricao}" />
+					</p:column>
+					<p:column headerText="#{labels.documentos_elemento}">
+						<h:outputText value="#{documento.elemento.descricao}" />
+					</p:column>
+					<p:column headerText="#{labels.opcoes}" width="8%">
+						<p:commandButton icon="fa fa-search" title="Visualizar"
+							ajax="false" onclick="this.form.target='_blank'"
+							styleClass="btn btn-default"
+							actionListener="#{documentoController.visualizarDocumento(documento)}" />
 					</p:column>
 			   </p:dataTable> 
 			</div>
@@ -123,24 +114,21 @@
 			   		rowStyleClass="ui-state-never-highlight" paginator="true" paginatorAlwaysVisible="false" var="documento"
 			   		pageLinks="10" rows="10" rowsPerPageTemplate="10,20,50" paginatorPosition="bottom" style="text-align: center;"
 			   		emptyMessage="#{labels.empty_message_documentos}" lazy="true">
-			      	<p:column headerText="#{labels.documentos_titulo}" sortBy="#{documento.titulo}" width="25%">
-			         	<h:outputText value="#{documento.titulo}"/>
-			      	</p:column>
-			      	<p:column headerText="#{labels.documentos_descricao}" sortBy="#{documento.descricao}">
-			         	<h:outputText value="#{documento.descricao}"/>
-			      	</p:column>
-			      	<p:column headerText="#{labels.documentos_tipo}" sortBy="#{documento.tipoDocumento.descricao}">
-			         	<h:outputText value="#{documento.tipoDocumento.descricao}"/>
-			      	</p:column>
-			      	<p:column headerText="#{labels.documentos_status}" sortBy="#{documento.statusDocumento.descricao}">
-			         	<h:outputText value="#{documento.statusDocumento.descricao}"/>
-			      	</p:column>
-			      	<p:column headerText="#{labels.documentos_revisao}" sortBy="#{documento.revisao}" width="8%">
-			         	<h:outputText value="#{documento.revisao}"/>
-			      	</p:column>
-			      	<p:column headerText="#{labels.opcoes}" width="8%">
-						<p:commandButton icon="fa fa-search" title="Visualizar" ajax="false" onclick="this.form.target='_blank'"
-		               			styleClass="btn btn-default" actionListener="#{documentoController.visualizarDocumento(documento)}"/>   
+			      	<p:column headerText="#{labels.documentos_titulo}"
+						sortBy="#{documento.titulo}" width="25%">
+						<h:outputText value="#{documento.titulo}" />
+					</p:column>
+					<p:column headerText="#{labels.documentos_descricao}">
+						<h:outputText value="#{documento.descricao}" />
+					</p:column>
+					<p:column headerText="#{labels.documentos_elemento}">
+						<h:outputText value="#{documento.elemento.descricao}" />
+					</p:column>
+					<p:column headerText="#{labels.opcoes}" width="8%">
+						<p:commandButton icon="fa fa-search" title="Visualizar"
+							ajax="false" onclick="this.form.target='_blank'"
+							styleClass="btn btn-default"
+							actionListener="#{documentoController.visualizarDocumento(documento)}" />
 					</p:column>
 			   </p:dataTable> 
 	      	</div>

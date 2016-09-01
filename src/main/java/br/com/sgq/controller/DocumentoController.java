@@ -139,7 +139,7 @@ public class DocumentoController {
 			this.inicializarDocumentosExternos();
 			this.inicializarElementosENovoDoc();
 			RequestContext.getCurrentInstance().update("modalAddDocumento");
-			RequestContext.getCurrentInstance().update("formDocumentosInternos");
+			RequestContext.getCurrentInstance().update("formDocumentosExternos");
 			RequestContext.getCurrentInstance().execute("PF('modalAddDocumento').hide();");
 			FacesUtil.adicionarMensagem(MsgConstantes.SUCESSO_DOCUMENTO_EXTERNO);
 		}else {

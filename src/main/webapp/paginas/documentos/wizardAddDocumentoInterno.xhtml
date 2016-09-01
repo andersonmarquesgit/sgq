@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:b="http://bootsfaces.net/ui">
+
+<ui:composition>
+	<script>
+		function onNext(parent, panel) {
+			hash = "#" + panel.id;
+			$(".acc-wizard-sidebar", $(parent)).children("li").children(
+					"a[href='" + hash + "']").parent("li").removeClass(
+					"acc-wizard-todo").addClass("acc-wizard-completed");
+		}
+		$(window).load(function() {
+			$(".acc-wizard").accwizard({
+				onNext : onNext
+			});
+		})
+	</script>
+	
+	<style>
+	.ui-spinner-input {
+	    vertical-align: middle;
+	    text-align: right;
+	    padding-right: 20px;
+	    width: 60px;
+	    height: 100%;
+	    border: none;
+	}
+	</style>
+
+	<!-- Modal -->
+	<div id="wizardAddDocumentoInterno" class="modal fade" role="dialog">
+		<div class="modal-dialog  modal-lg">
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header modal-header-primary">
+					<button type="button" class="close wizard-close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title">#{labels.documentos_internos_adicionar}</h4>
+				</div>
+				<div class="modal-body acc-wizard"  style="min-height: 350px;">
+					<div class="row">
+						<div class="col-md-3 background-radius" >
+							<ol class="acc-wizard-sidebar">
+								<li class="acc-wizard-active">Cadastro Inicial</li>
+								<li class="acc-wizard-todo">Elaboração</li>
+								<li class="acc-wizard-todo">Consenso</li>
+								<li class="acc-wizard-todo">Aprovação</li>
+							</ol>
+						</div>
+						<div class="col-md-9">
+							<h:panelGroup layout="block" id="container" rendered="true">
+								<h:form id="formAddDocumentoInterno" enctype="multipart/form-data">
+									<div id="dadosDocumentoInterno" class="panel panel-default">
+										<div class="panel-heading">Cadastro de Documento Interno</div>
+										<div class="panel-body">
+											<div class="row">
+												<div class="col-lg-10">
+													<h:outputText styleClass="form-required" value="#{labels.documentos_modal_titulo}"/>
+											        <b:inputText id="inputTituloDocumentoInterno" value="#{documentoController.documento.titulo}" />
+												</div>
+												<div class="col-lg-2">
+													<h:outputText styleClass="form-required" value="#{labels.documentos_modal_revisao}"/>
+											        <p:spinner styleClass="form-control" id="revisao" min="0" value="#{documentoController.documento.revisao}" />
+												</div>
+											</div>
+											<div class="row">
+												<div class="col-lg-12">
+													<h:outputText value="#{labels.documentos_modal_descricao}"/>
+											        <b:inputText id="inputDescricaoDocumentoInterno" value="#{documentoController.documento.descricao}" 
+											        	required="required" />
+												</div>
+											</div>	
+											<div class="row">
+												<div class="col-lg-6">
+											        <h:outputText styleClass="form-required" value="#{labels.documentos_modal_tipo}"/>
+													<h:selectOneMenu id="selectTipoDocumentoInterno" converter="GenericConverter" styleClass="form-control" value="#{documentoController.documento.tipoDocumento}" >
+														<f:selectItem itemLabel="Escolha um tipo" noSelectionOption="true" itemDisabled="true" />
+														<f:selectItems value="#{documentoController.tiposDeDocumentos}" var="tipo" itemLabel="#{tipo.descricao}" itemValue="#{tipo}" />
+										        	</h:selectOneMenu>
+												</div>
+												<div class="col-lg-6">
+										        	<h:outputText value="#{labels.documentos_modal_elemento}"/>
+													<h:selectOneMenu id="selectElementoInterno" converter="GenericConverter" styleClass="form-control" value="#{documentoController.documento.elemento}">
+														<f:selectItem itemLabel="Escolha um elemento" noSelectionOption="true" itemDisabled="true" />
+														<f:selectItems value="#{documentoController.elementos}" var="elemento" itemLabel="#{elemento.descricao}" itemValue="#{elemento}" />
+										        	</h:selectOneMenu>
+												</div>
+									        </div>
+									        <br />
+									        <div class="row">
+									        	<div class="col-lg-12">
+										        	<h:outputText value="#{labels.documentos_modal_arquivo}" for="arquivo" />
+											        <h:inputFile id="arquivoDocInterno" value="#{documentoController.arquivo}" 
+											            required="true" label="Arquivo" />
+											    </div>
+								        	</div>
+										</div>
+									</div>
+									<div class="modal-footer">
+										<div class="btn-group">
+											<b:commandButton value="Adicionar" styleClass="btn-primary" action="#{documentoController.uploadDocumento}" />
+											<button type="reset" data-dismiss="modal" class="btn btn-default">#{labels.cancelar}</button>
+										</div>
+											
+									</div>
+								</h:form>	
+							</h:panelGroup>
+
+<!-- 							<div id="accordion-demo" class="panel-group"> -->
+<!-- 								<div class="panel panel-default"> -->
+<!-- 									<div class="panel-heading"> -->
+<!-- 										<h4 class="panel-title"> -->
+<!-- 											<a href="#prerequisites" data-parent="#accordion-demo" -->
+<!-- 												data-toggle="collapse"> Cadastro de Documento </a> -->
+<!-- 										</h4> -->
+<!-- 									</div> -->
+<!-- 									<div id="prerequisites" class="panel-collapse collapse" -->
+<!-- 										style="height: 36.4px;"> -->
+<!-- 										<div class="panel-body"> -->
+<!-- 											<form id="form-prerequisites"> -->
+<!-- 												<p>Step 1</p> -->
+<!-- 											</form> -->
+<!-- 										</div> -->
+<!-- 										/.panel-body -->
+<!-- 									</div> -->
+<!-- 									/#prerequisites -->
+<!-- 								</div> -->
+<!-- 								/.panel.panel-default -->
+
+<!-- 								<div class="panel panel-default"> -->
+<!-- 									<div class="panel-heading"> -->
+<!-- 										<h4 class="panel-title"> -->
+<!-- 											<a href="#addwizard" data-parent="#accordion-demo" -->
+<!-- 												data-toggle="collapse" class="collapsed"> Elaboração do Documento </a> -->
+<!-- 										</h4> -->
+<!-- 									</div> -->
+<!-- 									<div id="addwizard" class="panel-collapse collapse" -->
+<!-- 										style="height: 36.4px;"> -->
+<!-- 										<div class="panel-body"> -->
+<!-- 											<form id="form-addwizard"> -->
+<!-- 												<p>Step 2</p> -->
+<!-- 											</form> -->
+<!-- 										</div> -->
+<!-- 										/.panel-body -->
+<!-- 									</div> -->
+<!-- 									/#addwizard -->
+<!-- 								</div> -->
+<!-- 								/.panel.panel-default -->
+
+<!-- 								<div class="panel panel-default"> -->
+<!-- 									<div class="panel-heading"> -->
+<!-- 										<h4 class="panel-title"> -->
+<!-- 											<a href="#adjusthtml" data-parent="#accordion-demo" -->
+<!-- 												data-toggle="collapse" class="collapsed"> Consenso dos Responsáveis </a> -->
+<!-- 										</h4> -->
+<!-- 									</div> -->
+<!-- 									<div id="adjusthtml" class="panel-collapse collapse in" -->
+<!-- 										style="height: auto;"> -->
+<!-- 										<div class="panel-body"> -->
+<!-- 											<form id="form-adjusthtml"> -->
+<!-- 												<p>Step 3</p> -->
+<!-- 											</form> -->
+<!-- 										</div> -->
+<!-- 										/.panel-body -->
+<!-- 									</div> -->
+<!-- 									/#adjusthtml -->
+<!-- 								</div> -->
+<!-- 								/.panel.panel-default -->
+
+<!-- 								<div class="panel panel-default"> -->
+<!-- 									<div class="panel-heading"> -->
+<!-- 										<h4 class="panel-title"> -->
+<!-- 											<a href="#viewpage" data-parent="#accordion-demo" -->
+<!-- 												data-toggle="collapse" class="collapsed"> Aprovação do Documento -->
+<!-- 											</a> -->
+<!-- 										</h4> -->
+<!-- 									</div> -->
+<!-- 									<div id="viewpage" class="panel-collapse collapse" -->
+<!-- 										style="height: 36.4px;"> -->
+<!-- 										<div class="panel-body"> -->
+<!-- 											<form id="form-viewpage"> -->
+<!-- 												<p>Step 4</p> -->
+<!-- 											</form> -->
+<!-- 										</div> -->
+<!-- 										/.panel-body -->
+<!-- 									</div> -->
+<!-- 									/#adjusthtml -->
+<!-- 								</div> -->
+<!-- 								/.panel.panel-default -->
+
+<!-- 							</div> -->
+						</div>
+					
+					
+					
+				</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</ui:composition>
+</html>

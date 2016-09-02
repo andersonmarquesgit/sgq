@@ -35,10 +35,9 @@
 						<h:outputText value="#{documento.elemento.descricao}" />
 					</p:column>
 					<p:column headerText="#{labels.opcoes}" width="8%">
-						<p:commandButton icon="fa fa-search" title="Visualizar"
-							ajax="false" onclick="this.form.target='_blank'"
-							styleClass="btn btn-default"
-							actionListener="#{documentoController.visualizarDocumento(documento)}" />
+						<p:commandButton id="btteste" styleClass="btn btn-labeled btn-primary" 
+							actionListener="#{documentoController.visualizarDocumentoPDF(documento)}"
+							icon="fa fa-search" title="#{labels.documentos_visualizar_pdf}" />
 					</p:column>
 					</p:dataTable>
 	      	</div>
@@ -65,10 +64,9 @@
 						<h:outputText value="#{documento.elemento.descricao}" />
 					</p:column>
 					<p:column headerText="#{labels.opcoes}" width="8%">
-						<p:commandButton icon="fa fa-search" title="Visualizar"
-							ajax="false" onclick="this.form.target='_blank'"
-							styleClass="btn btn-default"
-							actionListener="#{documentoController.visualizarDocumento(documento)}" />
+						<p:commandButton id="btteste" styleClass="btn btn-labeled btn-primary" 
+							actionListener="#{documentoController.visualizarDocumentoPDF(documento)}"
+							icon="fa fa-search" title="#{labels.documentos_visualizar_pdf}" />
 					</p:column>
 			   </p:dataTable> 
 			</div>
@@ -95,10 +93,9 @@
 						<h:outputText value="#{documento.elemento.descricao}" />
 					</p:column>
 					<p:column headerText="#{labels.opcoes}" width="8%">
-						<p:commandButton icon="fa fa-search" title="Visualizar"
-							ajax="false" onclick="this.form.target='_blank'"
-							styleClass="btn btn-default"
-							actionListener="#{documentoController.visualizarDocumento(documento)}" />
+						<p:commandButton id="btteste" styleClass="btn btn-labeled btn-primary" 
+							actionListener="#{documentoController.visualizarDocumentoPDF(documento)}"
+							icon="fa fa-search" title="#{labels.documentos_visualizar_pdf}" />
 					</p:column>
 			   </p:dataTable> 
 			</div>
@@ -125,10 +122,9 @@
 						<h:outputText value="#{documento.elemento.descricao}" />
 					</p:column>
 					<p:column headerText="#{labels.opcoes}" width="8%">
-						<p:commandButton icon="fa fa-search" title="Visualizar"
-							ajax="false" onclick="this.form.target='_blank'"
-							styleClass="btn btn-default"
-							actionListener="#{documentoController.visualizarDocumento(documento)}" />
+						<p:commandButton id="btteste" styleClass="btn btn-labeled btn-primary" 
+							actionListener="#{documentoController.visualizarDocumentoPDF(documento)}"
+							icon="fa fa-search" title="#{labels.documentos_visualizar_pdf}" />	
 					</p:column>
 			   </p:dataTable> 
 	      	</div>

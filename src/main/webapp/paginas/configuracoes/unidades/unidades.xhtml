@@ -28,9 +28,11 @@
 	         	<h:outputText value="#{unidade.empresa.razaoSocial}"/>
 	      	</p:column>
 	      	<p:column headerText="#{labels.opcoes}" width="20%">
-		      	<p:commandButton icon="ui-icon-pencil" title="Editar" process="@this" update="@none"
+		      	<p:commandButton icon="fa fa-pencil" title="Editar" process="@this" update="@none"
+		      			styleClass="btn btn-primary"
                         actionListener="#{unidadeController.editarUnidade(unidade)}" />
-		      	<p:commandButton icon="ui-icon-trash" title="Excluir" process="@this" update="@none"
+		      	<p:commandButton icon="fa fa-trash" title="Excluir" process="@this" update="@none"
+		      			styleClass="btn btn-danger"
                         actionListener="#{unidadeController.confirmarExclusaoUnidade(unidade)}" />
 			</p:column>
 	   </p:dataTable>

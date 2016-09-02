@@ -32,9 +32,11 @@
 	         	<h:outputText value="#{usuario.ativo}"/>
 	      	</p:column>
 	      	<p:column headerText="#{labels.opcoes}" width="20%">
-		      	<p:commandButton icon="ui-icon-pencil" title="Editar" process="@this" update="@none"
+		      	<p:commandButton icon="fa fa-pencil" title="Editar" process="@this" update="@none"
+		      			styleClass="btn btn-primary"
                         actionListener="#" />
-		      	<p:commandButton icon="ui-icon-trash" title="Excluir" process="@this" update="@none"
+		      	<p:commandButton icon="fa fa-trash" title="Excluir" process="@this" update="@none"
+		      			styleClass="btn btn-danger"
                         actionListener="#" />
 			</p:column>
 	   	</p:dataTable>

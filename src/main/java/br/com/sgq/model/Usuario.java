@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -53,6 +54,12 @@ public class Usuario {
 	@Column(name="ativo")
 	private Boolean ativo;
 	
+	//Este atributo corresponde ao campo BLOB/CLOB que armazena 
+	// o conteudo do documento PDF (Note a anotação @Lob)
+	@Lob
+	@Column
+	private byte[] foto;
+		
     public Long getId() {
 		return id;
 	}
@@ -131,6 +138,14 @@ public class Usuario {
 
 	public void setRole(Role role) {
 		this.role = role;
+	}
+
+	public byte[] getFoto() {
+		return foto;
+	}
+
+	public void setFoto(byte[] foto) {
+		this.foto = foto;
 	}
 
 }

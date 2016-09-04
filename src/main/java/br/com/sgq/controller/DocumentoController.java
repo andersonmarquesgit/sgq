@@ -1,5 +1,7 @@
 package br.com.sgq.controller;
 
+import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
@@ -10,7 +12,9 @@ import javax.faces.view.ViewScoped;
 
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.FileUploadEvent;
+import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.LazyDataModel;
+import org.primefaces.model.StreamedContent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
@@ -31,6 +35,7 @@ import br.com.sgq.utils.enums.TipoDocumentoEnum;
 public class DocumentoController {
 
 	private Documento documento;
+	private Documento documentoSelecionado;
 	private LazyDataModel<Documento> documentosProcedimentos;
 	private LazyDataModel<Documento> documentosPoliticas;
 	private LazyDataModel<Documento> documentosTreinamentos;
@@ -39,7 +44,9 @@ public class DocumentoController {
 	private List<TipoDocumento> tiposDeDocumentos;
 	private List<TipoDocumento> tiposDeDocumentosExternos;
 	private List<Elemento> elementos;
-	
+	private StreamedContent streamedContent;
+    private InputStream stream;
+    
 	@Autowired
 	private TipoDocumentoService tipoDocumentoService;
 	
@@ -172,6 +179,24 @@ public class DocumentoController {
 		return false;
 	}
 	
+	public void visualizarDocumentoPDF(Documento documentoSelecionado) {
+		this.documentoSelecionado = documentoSelecionado;
+		RequestContext.getCurrentInstance().update("modalDocumentoPDF");
+        stream = new ByteArrayInputStream(documentoSelecionado.getConteudo());
+        stream.mark(0); //remember to this position!
+        streamedContent = new DefaultStreamedContent(stream, "application/pdf");
+        RequestContext.getCurrentInstance().execute("PF('modalDocumentoPDF').show();");
+	}
+	
+	public void visualizarDocumentoDOC(Documento documentoSelecionado) {
+		this.documentoSelecionado = documentoSelecionado;
+		RequestContext.getCurrentInstance().update("modalDocumentoPDF");
+        stream = new ByteArrayInputStream(documentoSelecionado.getConteudo());
+        stream.mark(0); //remember to this position!
+        streamedContent = new DefaultStreamedContent(stream, "application/doc");
+        RequestContext.getCurrentInstance().execute("PF('modalDocumentoPDF').show();");
+	}
+	
 	// Gets e Sets
 	// ==============================================================================================
 	public Documento getDocumento() {
@@ -249,5 +274,31 @@ public class DocumentoController {
 	public void setTiposDeDocumentosExternos(
 			List<TipoDocumento> tiposDeDocumentosExternos) {
 		this.tiposDeDocumentosExternos = tiposDeDocumentosExternos;
+	}
+
+	public StreamedContent getStreamedContent() throws IOException {
+		if (streamedContent != null)
+            streamedContent.getStream().reset();
+		return streamedContent;
+	}
+
+	public void setStreamedContent(StreamedContent streamedContent) {
+		this.streamedContent = streamedContent;
+	}
+
+	public InputStream getStream() {
+		return stream;
+	}
+
+	public void setStream(InputStream stream) {
+		this.stream = stream;
+	}
+
+	public Documento getDocumentoSelecionado() {
+		return documentoSelecionado;
+	}
+
+	public void setDocumentoSelecionado(Documento documentoSelecionado) {
+		this.documentoSelecionado = documentoSelecionado;
 	}
 }

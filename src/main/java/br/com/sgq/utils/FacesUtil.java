@@ -1,6 +1,7 @@
 package br.com.sgq.utils;
 
 import java.io.File;
+import java.io.InputStream;
 import java.text.MessageFormat;
 import java.util.ResourceBundle;
 
@@ -173,6 +174,10 @@ public final class FacesUtil {
 		mensagem.setSeverity(severidade);
 
 		obterContexto().addMessage(null, mensagem);
+	}
+	
+	public static InputStream obterInputStreamDeRecurso(String resourcePath) {
+		return obterContexto().getExternalContext().getResourceAsStream(resourcePath);
 	}
 
 	public static Flash obterFlashScope() {

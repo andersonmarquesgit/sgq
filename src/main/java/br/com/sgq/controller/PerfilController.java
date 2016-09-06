@@ -6,6 +6,7 @@ import java.io.InputStream;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
+import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 
 import org.primefaces.context.RequestContext;
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Controller;
 import br.com.sgq.autenticacao.UserSession;
 import br.com.sgq.model.Usuario;
 import br.com.sgq.service.UsuarioService;
+import br.com.sgq.utils.Constantes;
 
 @ManagedBean
 @ViewScoped
@@ -33,14 +35,11 @@ public class PerfilController {
 	private Usuario usuarioLogado;
 	private StreamedContent streamedContent;
     
-//	public String getUrlRelativoDaFoto() {
-//		String url;// = controlarAcessoFoto.obterUrlFotoSemContexto();
-//		if(url == null) {
-//			return Constantes.LOCAL_IMAGEM_SEM_FOTO;
-//		}
-//		return url;
-//	}
-	
+	@PostConstruct
+	public void init(){
+		construirStreamedContent();
+	}
+
 	public void uploadFile(FileUploadEvent event)throws IOException{
 		InputStream inputStream = event.getFile().getInputstream();
 		byte[] file = new byte[inputStream.available()];
@@ -52,9 +51,26 @@ public class PerfilController {
 	}
 	
 	public void carregarFoto() {
-		InputStream stream = new ByteArrayInputStream(this.usuarioLogado.getFoto());
-		streamedContent = new DefaultStreamedContent(stream, "image/jpg");
+		construirStreamedContent();
 		RequestContext.getCurrentInstance().update("formPerfilUsuario");
+	}
+
+	private void construirStreamedContent() {
+		InputStream stream = this.construirInputStreamDaFoto();
+		streamedContent = new DefaultStreamedContent(stream, "image/jpg");
+	}
+	
+	private InputStream construirInputStreamDaFoto() {
+		InputStream stream = null;
+		if(this.usuarioLogado == null
+				|| this.usuarioLogado.getFoto().length == 0
+				|| this.usuarioLogado.getFoto() == null) {
+			stream = FacesContext.getCurrentInstance().getExternalContext().getResourceAsStream(Constantes.LOCAL_IMAGEM_SEM_FOTO);
+		}else{
+			stream = new ByteArrayInputStream(this.usuarioLogado.getFoto());
+		}
+		
+		return stream;
 	}
 
 	public void salvar() {

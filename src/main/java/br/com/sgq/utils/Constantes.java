@@ -10,6 +10,7 @@ public abstract class Constantes {
 	public static final int QTD_ZEROS_NUM_ANALISE_CRITICA = 2;
 	public static final String NA = "N/A";
 	public static final String LOCAL_IMAGEM_SEM_FOTO = "/resources/img/semfoto.png";
+	public static final String PROPRIEDADE_USUARIO_LOGADO = "usuarioLogado";
 	
 	/** 
 	 * CAMINHO DOS RELATÓRIOS

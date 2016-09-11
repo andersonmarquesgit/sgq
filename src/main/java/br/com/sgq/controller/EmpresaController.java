@@ -6,10 +6,13 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.view.ViewScoped;
 
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 import org.primefaces.context.RequestContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
+import br.com.sgq.exceptions.NegocioExcecao;
 import br.com.sgq.model.Empresa;
 import br.com.sgq.service.EmpresaService;
 import br.com.sgq.utils.FacesUtil;
@@ -19,6 +22,8 @@ import br.com.sgq.utils.MsgConstantes;
 @ViewScoped
 @Controller
 public class EmpresaController {
+	
+	private static final Logger logger = LogManager.getLogger(EmpresaController.class);
 	
 	private Empresa empresa;
 
@@ -76,10 +81,16 @@ public class EmpresaController {
 	}
 	
 	public void excluirEmpresa() {
-		empresaService.remover(this.empresaSelecionada);
-		this.inicializarObjetosDaTela();
-		RequestContext.getCurrentInstance().update("formEmpresas");
-		FacesUtil.adicionarMensagem(MsgConstantes.SUCESSO_EXCLUSAO);
+		try {
+			empresaService.remover(this.empresaSelecionada);
+			this.inicializarObjetosDaTela();
+			RequestContext.getCurrentInstance().update("formEmpresas");
+			FacesUtil.adicionarMensagem(MsgConstantes.SUCESSO_EXCLUSAO);
+		} catch (Exception e) {
+			logger.error(FacesUtil.obterTexto(MsgConstantes.ERRO_EXCLUSAO), e);
+			FacesUtil.adicionarMensagem(MsgConstantes.ERRO_EXCLUSAO);
+			throw new NegocioExcecao(FacesUtil.obterTexto(MsgConstantes.ERRO_EXCLUSAO));
+		}
 	}
 	
 	public void confirmarExclusaoEmpresa(Empresa empresaSelecionada) {

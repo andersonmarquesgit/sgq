@@ -3,17 +3,15 @@ package br.com.sgq.controller;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.view.ViewScoped;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
 import br.com.sgq.model.Gravidade;
 import br.com.sgq.service.GravidadeService;
 
-@ManagedBean
-@ViewScoped
+@Scope("view")
 @Controller
 public class GravidadeController {
 

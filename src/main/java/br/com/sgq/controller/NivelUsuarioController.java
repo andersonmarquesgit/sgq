@@ -5,11 +5,10 @@ import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.view.ViewScoped;
 
 import org.primefaces.context.RequestContext;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
 import br.com.sgq.model.NivelUsuario;
@@ -17,8 +16,7 @@ import br.com.sgq.service.NivelUsuarioService;
 import br.com.sgq.utils.FacesUtil;
 import br.com.sgq.utils.MsgConstantes;
 
-@ManagedBean
-@ViewScoped
+@Scope("view")
 @Controller
 public class NivelUsuarioController implements Serializable{
 	private static final long serialVersionUID = -7580482456782445297L;

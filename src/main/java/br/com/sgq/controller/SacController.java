@@ -10,6 +10,7 @@ import javax.faces.view.ViewScoped;
 
 import org.primefaces.context.RequestContext;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
 import br.com.sgq.autenticacao.UserSession;
@@ -30,8 +31,7 @@ import br.com.sgq.utils.FacesUtil;
 import br.com.sgq.utils.MsgConstantes;
 import br.com.sgq.utils.enums.StatusReclamacaoEnum;
 
-@ManagedBean
-@ViewScoped
+@Scope("view")
 @Controller
 public class SacController {
 

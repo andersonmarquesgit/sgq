@@ -5,6 +5,7 @@ public class MsgConstantes {
 	public static final String VALIDACAO_CAMPOS_OBRIGATORIOS = "sgq.mensagens.campos.obrigatorios";
 	public static final String SUCESSO_EDICAO = "sgq.mensagens.sucesso.edicao";
 	public static final String SUCESSO_EXCLUSAO = "sgq.mensagens.sucesso.exclusao";
+	public static final String ERRO_EXCLUSAO = "sgq.mensagens.erro.exclusao";
 	public static final String SUCESSO_ANALISE_GRAVIDADE = "sgq.mensagens.sucesso.gravidade";
 	public static final String SUCESSO_ANALISE_ACAO = "sgq.mensagens.sucesso.acao";
 	public static final String SUCESSO_ANALISE_ACEITE = "sgq.mensagens.sucesso.aceite";

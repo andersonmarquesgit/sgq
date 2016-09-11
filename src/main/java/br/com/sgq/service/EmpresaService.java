@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import br.com.sgq.exceptions.NegocioExcecao;
 import br.com.sgq.model.Empresa;
 import br.com.sgq.repository.EmpresaRepository;
 import br.com.sgq.utils.OrdenacaoUtil;

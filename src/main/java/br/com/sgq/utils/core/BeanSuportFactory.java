@@ -18,7 +18,7 @@ public class BeanSuportFactory implements ApplicationContextAware {
 	@Override
 	public void setApplicationContext(ApplicationContext actx)
 			throws BeansException {
-		inicializar(actx);
+  		inicializar(actx);
 	}
 
 	private static void inicializar(ApplicationContext actx) {

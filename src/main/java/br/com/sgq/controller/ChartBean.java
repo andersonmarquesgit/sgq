@@ -17,6 +17,7 @@ import org.chartistjsf.model.chart.LineChartModel;
 import org.chartistjsf.model.chart.LineChartSeries;
 import org.chartistjsf.model.chart.PieChartModel;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
 import br.com.sgq.model.Gravidade;
@@ -28,8 +29,7 @@ import br.com.sgq.utils.DataUtil;
 import br.com.sgq.utils.enums.GravidadeEnum;
 import br.com.sgq.utils.enums.StatusReclamacaoEnum;
 
-@ManagedBean
-@ViewScoped
+@Scope("view")
 @Controller
 public class ChartBean implements Serializable{
 

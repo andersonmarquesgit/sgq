@@ -6,10 +6,10 @@ package br.com.sgq.controller;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
-import javax.faces.view.ViewScoped;
 
 import org.primefaces.context.RequestContext;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
 import br.com.sgq.model.AnaliseCritica;
@@ -24,11 +24,7 @@ import br.com.sgq.utils.DataUtil;
 import br.com.sgq.utils.FacesUtil;
 import br.com.sgq.utils.MsgConstantes;
 
-/**
- * @author Anderson
- *
- */
-@ViewScoped
+@Scope("view")
 @Controller
 public class AnaliseCriticaController {
 	

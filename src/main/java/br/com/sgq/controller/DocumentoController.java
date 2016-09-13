@@ -16,6 +16,7 @@ import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.LazyDataModel;
 import org.primefaces.model.StreamedContent;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
 import br.com.sgq.filtros.DocumentoLazyList;
@@ -29,8 +30,7 @@ import br.com.sgq.utils.FacesUtil;
 import br.com.sgq.utils.MsgConstantes;
 import br.com.sgq.utils.enums.TipoDocumentoEnum;
 
-@ManagedBean
-@ViewScoped
+@Scope("view")
 @Controller
 public class DocumentoController {
 

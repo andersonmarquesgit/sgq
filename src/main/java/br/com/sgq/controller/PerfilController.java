@@ -7,6 +7,7 @@ import java.io.InputStream;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
+import javax.faces.event.PhaseId;
 
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.FileUploadEvent;
@@ -46,7 +47,7 @@ public class PerfilController {
 			this.carregarImagemSemFoto();
 		}
 	}
-
+	
 	public void uploadFile(FileUploadEvent event) {
 		InputStream inputStream;
 		byte[] file = null;

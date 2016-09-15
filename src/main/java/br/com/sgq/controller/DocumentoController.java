@@ -30,7 +30,7 @@ import br.com.sgq.utils.FacesUtil;
 import br.com.sgq.utils.MsgConstantes;
 import br.com.sgq.utils.enums.TipoDocumentoEnum;
 
-@Scope("view")
+@Scope("session")
 @Controller
 public class DocumentoController {
 

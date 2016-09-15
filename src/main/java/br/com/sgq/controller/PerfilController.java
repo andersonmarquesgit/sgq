@@ -23,7 +23,7 @@ import br.com.sgq.service.UsuarioService;
 import br.com.sgq.utils.AcessoUtil;
 import br.com.sgq.utils.Constantes;
 
-@Scope("view")
+@Scope("session")
 @Controller
 public class PerfilController {
 	

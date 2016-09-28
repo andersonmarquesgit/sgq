@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import br.com.sgq.model.Usuario;
 import br.com.sgq.repository.UserRepository;
@@ -26,6 +27,7 @@ public class UsuarioService {
 		return userRepository.findAll();
 	}
 
+	@Transactional
 	public void salvar(Usuario usuario) {
 		userRepository.saveAndFlush(usuario);
 	}

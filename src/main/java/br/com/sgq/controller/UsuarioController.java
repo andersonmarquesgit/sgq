@@ -47,7 +47,6 @@ public class UsuarioController {
 	public void confirmSalvarUsuario() {
 		RequestContext.getCurrentInstance().update("formUsuarios");
 		RequestContext.getCurrentInstance().execute("PF('modalUsuario').hide();");
-		
 		usuario.setRole(Role.ROLE_USER);
 		usuario.setLogin(usuario.getEmail());
 		usuario.setEmpresa(usuario.getUnidade().getEmpresa());

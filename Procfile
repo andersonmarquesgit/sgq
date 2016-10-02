@@ -1,1 +1,1 @@
-web: java $JAVA_OPTS -cp target/classes:target/* sgq --port $PORT target/*.war
+worker: sh target/bin/worker

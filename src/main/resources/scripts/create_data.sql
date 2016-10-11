@@ -1,3 +1,23 @@
+-- Inserts de TB_EMPRESA --
+INSERT INTO tb_empresa(id, cnpj, razao_social)
+    VALUES (1, '56.212.211/0001-42', 'Qualyes');
+    
+-- Inserts de TB_UNIDADE --
+INSERT INTO tb_unidade(id, nome, fk_empresa)
+    VALUES (1, 'Unidade SP', 1);
+    
+-- Inserts de TB_NIVEL_USUARIO --
+INSERT INTO tb_nivel_usuario(id, dt_alteracao, dt_inclusao, nome, permissao_analise_critica, permissao_configuracoes, permissao_documentos, permissao_sac)
+    VALUES (1, null, current_timestamp, 'Administrador', true, true, true, true);
+INSERT INTO tb_nivel_usuario(id, dt_alteracao, dt_inclusao, nome, permissao_analise_critica, permissao_configuracoes, permissao_documentos, permissao_sac)
+    VALUES (2, null, current_timestamp, 'Usuário', true, false, true, true);
+
+-- Inserts de TB_USUARIO --
+INSERT INTO tb_usuario(id, ativo, email, login, nome, senha, role, fk_empresa, fk_nivel_usuario, fk_unidade)
+    VALUES (1, true, 'admin@qualyes.com.br', 'admin', 'Administrador', 'admin@123', 'ROLE_ADMIN', 1, 1, 1);   
+INSERT INTO tb_usuario(id, ativo, email, login, nome, senha, role, fk_empresa, fk_nivel_usuario, fk_unidade)
+    VALUES (2, true, 'user@qualyes.com.br', 'user', 'Usuário Qualyes', 'user@123', 'ROLE_USER', 1, 2, 1);   
+    
 -- Inserts de TB_ELEMENTO --
 INSERT INTO tb_elemento(id, descricao)
     VALUES (1, 'Sac');

@@ -14,8 +14,15 @@
 		<intercept-url pattern="/index.jsp" access="permitAll" />
 		<intercept-url pattern="/login.faces" access="permitAll" />
 		<intercept-url pattern="/public/**" access="permitAll" />
-		<intercept-url pattern="/resources/**" access="hasAuthority('ROLE_USER')" />
-		<intercept-url pattern="/paginas/**" access="hasAuthority('ROLE_USER')" />
+		<intercept-url pattern="/resources/**" access="permitAll" />
+		<intercept-url pattern="/paginas/**" access="permitAll" />
+		<intercept-url pattern="/paginas/configuracoes/**" access="hasAuthority('ROLE_ADMIN')" />
+		<intercept-url pattern="/paginas/documentos/**" access="hasAuthority('ROLE_USER')" />
+		<intercept-url pattern="/paginas/dashboard/**" access="hasAuthority('ROLE_USER')" />
+		<intercept-url pattern="/paginas/analisecritica/**" access="hasAuthority('ROLE_USER')" />
+		<intercept-url pattern="/paginas/sac/**" access="hasAuthority('ROLE_USER')" />
+		<intercept-url pattern="/paginas/usuario/**" access="hasAuthority('ROLE_USER')" />
+
 
 		<form-login login-page="/login.faces"
 			authentication-failure-url="/login.faces?erro=true"
